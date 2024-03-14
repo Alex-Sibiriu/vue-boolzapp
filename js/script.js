@@ -53,11 +53,7 @@ createApp({
     },
 
     deleteMsg(index) {
-      const allMenus = document.querySelectorAll('.dropdown-menu');
-
       this.contacts[this.activeChat].messages.splice(index, 1)
-
-      allMenus[index].classList.add('d-none')
     }
   },
 
