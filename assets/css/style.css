@@ -9,7 +9,7 @@
   --icons-write-bar: #6B7376;
   --last-access: #7A8184;
   --body-bg: linear-gradient(to bottom, #009688 0%,#009688 15%, #DADBD4 15%, #DADBD4 85%);
-  --bg-chat: url('../img/mine.jpg');
+  --bg-chat: url('../../img/mine.jpg');
   --top-bar-h: 70px;
   --notifications-h: 80px;
   --search-bar-h: 50px;
@@ -100,7 +100,7 @@ body.dark {
   --icons-write-bar: #2c3031;
   --last-access: #a1b3bc;
   --body-bg: linear-gradient(to bottom, #00645a 0%,#00645a 15%, #292927 15%, #292927 85%);
-  --bg-chat: url('../img/dark-theme.jpg') ;
+  --bg-chat: url('../../img/dark-theme.jpg') ;
   --primary-color: grey;
   --generic-txt-color: white;
   --row-hover-color:rgb(105, 71, 71);

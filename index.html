@@ -6,6 +6,9 @@
 
   <title>Boolzapp UI</title>
 
+  <!-- VUE -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
   <!-- LINK FONT AWESOME -->
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' integrity='sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==' crossorigin='anonymous'/>
 
@@ -21,7 +24,7 @@
 
 <body>
 
-  <div class="container d-flex">
+  <div id="app" class="container d-flex">
 
     <!-- LEFT COLUMN -->
     <div class="col l-col">
@@ -68,14 +71,14 @@
         <div class="latest-msg d-flex f-column">
 
           <!-- Contact 1 -->
-          <div class="row padding-s d-flex item-center jc-between">
+          <div v-for="(contact, index) in contacts" class="row padding-s d-flex item-center jc-between">
             <div class="user-info d-flex item-center">
               <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_1.jpg" alt="User 1">
+                <img class="circle-form" :src="contact.avatar" :alt="contact.name">
               </div>
               <div class="col user-name">
-                <h2>Michele</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
+                <h2>{{ contact.name }}</h2>
+                <p class="msg-preview">{{contact.messages[contact.messages.length - 1].message}}</p>
               </div>
             </div>
             <div class="col msg-hour">
@@ -84,124 +87,6 @@
           </div>
           <!-- /Contact 1 -->
 
-          <!-- Contact 2 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_2.jpg" alt="User 2">
-              </div>
-              <div class="col user-name">
-                <h2>Fabio</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>16:05</p>
-            </div>
-          </div>
-          <!-- /Contact 2 -->
-          
-          <!-- Contact 3 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_3.jpg" alt="User 3">
-              </div>
-              <div class="col user-name">
-                <h2>Samuele</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>16:03</p>
-            </div>
-          </div>
-          <!-- /Contact 3 -->
-
-          <!-- Contact 4 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_4.jpg" alt="User 4">
-              </div>
-              <div class="col user-name">
-                <h2>Alessandro B.</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>15:50</p>
-            </div>
-          </div>
-          <!-- /Contact 4 -->
-          
-          <!-- Contact 5 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_5.jpg" alt="User 5">
-              </div>
-              <div class="col user-name">
-                <h2>Alessandro L.</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>15:45</p>
-            </div>
-          </div>
-          <!-- /Contact 5 -->
-          
-          <!-- Contact 6 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_6.jpg" alt="User 6">
-              </div>
-              <div class="col user-name">
-                <h2>Claudia</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>15:40</p>
-            </div>
-          </div>
-          <!-- /Contact 6 -->
-          
-          <!-- Contact 7 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_7.jpg" alt="User 7">
-              </div>
-              <div class="col user-name">
-                <h2>Federico</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>15:22</p>
-            </div>
-          </div>
-          <!-- /Contact 7 -->
-          
-          <!-- Contact 8 -->
-          <div class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" src="assets/img/avatar_8.jpg" alt="User 8">
-              </div>
-              <div class="col user-name">
-                <h2>Davide</h2>
-                <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>15:15</p>
-            </div>
-          </div>
-          <!-- /Contact 8 -->
         </div>
 
       </div>
@@ -298,5 +183,7 @@
     </div>
   </div>
   
+  <script type="module" src="js/script.js"></script>
+
 </body>
 </html>
