@@ -155,7 +155,11 @@
           <i class="fa-regular fa-face-smile"></i>
         </div>
 
-        <input type="text" placeholder="Scrivi un messaggio">
+        <input
+          v-model="newText"
+          @keyup.enter="sendMsg(newText, activeChat)"
+          type="text"
+          placeholder="Scrivi un messaggio">
 
         <div class="voice d-flex jc-center">
           <i class="fa-solid fa-microphone"></i>
