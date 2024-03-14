@@ -9,6 +9,7 @@ createApp({
       contacts,
       activeChat: 0,
       newText: '',
+      contactSrc: '',
     }
   },
 
@@ -22,7 +23,7 @@ createApp({
     sendMsg(text, index) {
       const newMsg = {
         date: '10/01/2020 15:30:55',
-        message: this.newText,
+        message: text,
         status: 'sent'
       }
 
@@ -33,18 +34,19 @@ createApp({
       }
 
       this.contacts[index].messages.push(newMsg);
+      this.newText = '';
 
       setTimeout(() => {
         this.contacts[index].messages.push(replyMsg)
       }, 1000);
-
-      this.newText = ''
     }
   },
 
 
-  mounted() {
-    
+  computed: {
+    contactFiltered() {
+      return this.contacts.filter(contact => contact.name.toLowerCase().includes(this.contactSrc.toLowerCase()))
+    }
   }
 
 }).mount('#app')

@@ -61,7 +61,7 @@
         <div class="icon d-flex jc-center item-center">
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-        <input type="search" placeholder="Cerca o inizia una nuova chat">
+        <input v-model="contactSrc" type="search" placeholder="Cerca o inizia una nuova chat">
       </div>
       <!-- /SEARCH BAR -->
 
@@ -70,7 +70,7 @@
         <div class="latest-msg d-flex f-column">
 
           <div
-            v-for="(contact, index) in contacts"
+            v-for="(contact, index) in contactFiltered"
             @click="activeChat = index"
             class="row padding-s d-flex item-center jc-between">
             <div class="user-info d-flex item-center">
