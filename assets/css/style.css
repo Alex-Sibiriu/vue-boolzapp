@@ -259,11 +259,12 @@ input {
 }
 
 .msg-box .msg-balloon {
-  width: 60%;
+  max-width: 60%;
   margin-bottom: 10px;
   border-radius: 10px;
   background-color: var(--msg-bg-color);
   position: relative;
+  justify-content: space-between;
 }
 
 .msg-balloon .triangle {
@@ -339,6 +340,7 @@ input {
 /* TEXT BAR */
 .txt-bar {
   height: var(--top-bar-h);
+  width: 100%;
   background-color: var(--bg-txt-bar);
 }
 

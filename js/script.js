@@ -7,15 +7,21 @@ createApp({
   data() {
     return {
       contacts,
+      activeChat: 0,
     }
   },
 
   methods: {
-    
+    lastMsg(index) {
+      const {messages} = this.contacts[index];
+
+      return messages[messages.length - 1].message
+    }
   },
 
+
   mounted() {
-    console.log('anna');
+    
   }
 
 }).mount('#app')

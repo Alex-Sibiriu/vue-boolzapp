@@ -67,28 +67,27 @@
 
       <!-- CONTACT LIST -->
       <div class="contact-list">
-
         <div class="latest-msg d-flex f-column">
 
-          <!-- Contact 1 -->
-          <div v-for="(contact, index) in contacts" class="row padding-s d-flex item-center jc-between">
+          <div
+            v-for="(contact, index) in contacts"
+            @click="activeChat = index"
+            class="row padding-s d-flex item-center jc-between">
             <div class="user-info d-flex item-center">
               <div class="col user-img">
                 <img class="circle-form" :src="contact.avatar" :alt="contact.name">
               </div>
               <div class="col user-name">
                 <h2>{{ contact.name }}</h2>
-                <p class="msg-preview">{{contact.messages[contact.messages.length - 1].message}}</p>
+                <p class="msg-preview">{{ lastMsg(index) }}</p>
               </div>
             </div>
             <div class="col msg-hour">
               <p>16:15</p>
             </div>
           </div>
-          <!-- /Contact 1 -->
 
         </div>
-
       </div>
       <!-- /CONTACT LIST -->
 
@@ -104,11 +103,11 @@
         <!-- User Info -->
         <div class="user-info d-flex item-center">
           <div class="col user-img">
-            <img class="circle-form" src="assets/img/avatar_1.jpg" alt="User 1">
+            <img class="circle-form" :src="contacts[activeChat].avatar" alt="User 1">
           </div>
           <div class="col user-name">
-            <h2>Michele</h2>
-            <p class="msg-preview">Lorem ipsum dolor sit amet.</p>
+            <h2>{{ contacts[activeChat].name }}</h2>
+            <p class="msg-preview">{{ lastMsg(activeChat) }}</p>
           </div>
         </div>
         <!-- /User Info -->
@@ -125,9 +124,12 @@
 
       <div class="msg-box d-flex f-column">
 
-        <div class="msg-balloon send padding-xs d-flex">
+        <div
+          v-for="msg in contacts[activeChat].messages"
+          :class="{'send' : msg.status === 'sent'}"
+          class="msg-balloon padding-xs d-flex">
           <div class="triangle"></div>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. A dolor ipsam tempora quos et. Ea id expedita voluptatem ut tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem, inventore.</p>
+          <p>{{ msg.message }}</p>
           <div class="msg-infos d-flex f-column jc-between">
             <div class="msg-menu">
               <i class="fa-solid fa-chevron-down"></i>
@@ -141,27 +143,7 @@
                 <li>Segnala</li>
               </ul>
             </div>
-            <p class="sending-time">16:13</p>
-          </div>
-        </div>
-
-        <div class="msg-balloon padding-xs d-flex">
-          <div class="triangle"></div>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. A dolor ipsam tempora quos et. Ea id expedita voluptatem ut tempore. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse, eligendi.</p>
-          <div class="msg-infos d-flex f-column jc-between">
-            <div class="msg-menu">
-              <i class="fa-solid fa-chevron-down"></i>
-              <ul>
-                <li>Info messaggio</li>
-                <li>Cancella messaggio</li>
-                <li>Rispondi</li>
-                <li>Rispondi in privato</li>
-                <li>Reagisci</li>
-                <li>Inoltra</li>
-                <li>Segnala</li>
-              </ul>
-            </div>
-            <p class="sending-time">16:15</p>
+            <p class="sending-time">{{ msg.date }}</p>
           </div>
         </div>
       </div>
