@@ -125,17 +125,22 @@
       <div class="msg-box d-flex f-column">
 
         <div
-          v-for="msg in contacts[activeChat].messages"
+          v-if="contacts[activeChat].messages.length > 0"
+          v-for="(msg, index) in contacts[activeChat].messages"
           :class="{'send' : msg.status === 'sent'}"
           class="msg-balloon padding-xs d-flex">
           <div class="triangle"></div>
           <p>{{ msg.message }}</p>
           <div class="msg-infos d-flex f-column jc-between">
-            <div class="msg-menu">
+            <div
+              @click="showMenu(index)"
+              class="msg-menu">
               <i class="fa-solid fa-chevron-down"></i>
-              <ul>
+              <ul class="dropdown-menu d-none">
                 <li>Info messaggio</li>
-                <li>Cancella messaggio</li>
+                <li
+                  @click.stop="deleteMsg(index)">Cancella messaggio
+                </li>
                 <li>Rispondi</li>
                 <li>Rispondi in privato</li>
                 <li>Reagisci</li>
@@ -146,6 +151,7 @@
             <p class="sending-time">{{ msg.date }}</p>
           </div>
         </div>
+        <h2 v-else>Non ci sono messaggi</h2>
       </div>
 
       <!-- Text Bar -->

@@ -10,6 +10,7 @@ createApp({
       activeChat: 0,
       newText: '',
       contactSrc: '',
+
     }
   },
 
@@ -17,7 +18,11 @@ createApp({
     lastMsg(index) {
       const {messages} = this.contacts[index];
 
-      return messages[messages.length - 1].message
+      if (messages.length > 0) {
+        return messages[messages.length - 1].message
+      } else {
+        return 'Nessun messaggio'
+      }
     },
 
     sendMsg(text, index) {
@@ -39,9 +44,22 @@ createApp({
       setTimeout(() => {
         this.contacts[index].messages.push(replyMsg)
       }, 1000);
+    },
+
+    showMenu(index) {
+      const allMenus = document.querySelectorAll('.dropdown-menu');
+
+      allMenus[index].classList.toggle('d-none')
+    },
+
+    deleteMsg(index) {
+      const allMenus = document.querySelectorAll('.dropdown-menu');
+
+      this.contacts[this.activeChat].messages.splice(index, 1)
+
+      allMenus[index].classList.add('d-none')
     }
   },
-
 
   computed: {
     contactFiltered() {
