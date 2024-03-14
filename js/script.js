@@ -70,9 +70,4 @@ createApp({
       return this.contacts
     }
   },
-
-  mounted() {
-    console.log(this.contacts);
-  },
-
 }).mount('#app')
