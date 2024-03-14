@@ -87,13 +87,20 @@
 *******************************************/
 body {
   font-family: "Lato", sans-serif;
+  /* height: 100vh;
+  padding: 2.5vh 0;
+  background: var(--body-bg);
+  color: var(--generic-txt-color); */
+}
+
+.main-wrapper {
   height: 100vh;
   padding: 2.5vh 0;
   background: var(--body-bg);
   color: var(--generic-txt-color);
 }
 
-body.dark {
+.main-wrapper.dark {
   --bg-send-msg: #6f9b75;
   --bg-top-bar: #868686;
   --bg-notifications: #2f7a9d;
@@ -268,7 +275,7 @@ input {
   border-radius: 10px;
   background-color: var(--msg-bg-color);
   position: relative;
-  justify-content: space-between;
+  align-self: flex-start;
 }
 
 .msg-balloon .triangle {
@@ -307,6 +314,7 @@ input {
 .msg-balloon .msg-infos i {
   opacity: 0;
   font-size:  .7rem;
+  transition: all .3s;
 }
 
 .msg-balloon .msg-infos i:hover {

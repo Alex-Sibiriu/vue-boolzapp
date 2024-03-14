@@ -10,7 +10,7 @@ createApp({
       activeChat: 0,
       newText: '',
       contactSrc: '',
-
+      isDark: false,
     }
   },
 
@@ -54,13 +54,25 @@ createApp({
 
     deleteMsg(index) {
       this.contacts[this.activeChat].messages.splice(index, 1)
-    }
+    },
   },
 
   computed: {
     contactFiltered() {
-      return this.contacts.filter(contact => contact.name.toLowerCase().includes(this.contactSrc.toLowerCase()))
+      this.contacts.forEach(contact => {
+        if (contact.name.toLowerCase().includes(this.contactSrc.toLowerCase())) {
+          contact.visible = true
+        } else {
+          contact.visible = false
+        }
+      });
+
+      return this.contacts
     }
-  }
+  },
+
+  mounted() {
+    console.log(this.contacts);
+  },
 
 }).mount('#app')

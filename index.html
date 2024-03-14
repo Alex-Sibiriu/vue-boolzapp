@@ -24,157 +24,162 @@
 
 <body>
 
-  <div id="app" class="container d-flex">
+  <div class="main-wrapper">
+  
+    <div id="app" class="container d-flex">
 
-    <!-- LEFT COLUMN -->
-    <div class="col l-col">
+      <!-- LEFT COLUMN -->
+      <div class="col l-col">
 
-      <!-- TOP BAR -->
-      <div class="top-bar d-flex jc-between item-center padding-s">
-        <div class="user-img">
-          <img class="circle-form" src="assets/img/avatar_io.jpg" alt="your avatar">
+        <!-- TOP BAR -->
+        <div class="top-bar d-flex jc-between item-center padding-s">
+          <div class="user-img d-flex item-center">
+            <img class="circle-form" src="/img/avatar_8.jpg" alt="your avatar">
+            <h2 class="padding-s">Alex</h2>
+          </div>
+
+          <div class="menu-icons d-flex">
+            <i class="fa-solid fa-circle-notch"></i>
+            <i class="fa-solid fa-message"></i>
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </div>
         </div>
+        <!-- /TOP BAR -->
 
-        <div class="menu-icons d-flex">
-          <i class="fa-solid fa-circle-notch"></i>
-          <i class="fa-solid fa-message"></i>
-          <i class="fa-solid fa-ellipsis-vertical"></i>
+        <!-- NOTIFICATIONS -->
+        <div class="notifications d-flex item-center padding-s">
+          <div class="icon d-flex item-center">
+            <i class="fa-solid fa-bell-slash circle-form d-flex jc-center"></i>
+          </div>
+
+          <div class="notification-status">
+            <h3>Ricevi notifiche di nuovi messaggi</h3>
+            <a href="#">Attiva notifiche desktop</a>
+          </div>
         </div>
+        <!-- /NOTIFICATIONS -->
+
+        <!-- SEARCH BAR -->
+        <div class="search-bar padding-xs d-flex item-center">
+          <div class="icon d-flex jc-center item-center">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <input v-model="contactSrc" type="search" placeholder="Cerca o inizia una nuova chat">
+        </div>
+        <!-- /SEARCH BAR -->
+
+        <!-- CONTACT LIST -->
+        <div class="contact-list">
+          <div class="latest-msg d-flex f-column">
+
+            <div
+              v-for="(contact, index) in contactFiltered"
+              v-show="contact.visible"
+              @click="activeChat = index; console.log(contact)"
+              class="row padding-s d-flex item-center jc-between">
+              <div class="user-info d-flex item-center">
+                <div class="col user-img">
+                  <img class="circle-form" :src="contact.avatar" :alt="contact.name">
+                </div>
+                <div class="col user-name">
+                  <h2>{{ contact.name }}</h2>
+                  <p class="msg-preview">{{ lastMsg(index) }}</p>
+                </div>
+              </div>
+              <div class="col msg-hour">
+                <p>16:15</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /CONTACT LIST -->
+
       </div>
-      <!-- /TOP BAR -->
+      <!-- /LEFT COLUMN -->
 
-      <!-- NOTIFICATIONS -->
-      <div class="notifications d-flex item-center padding-s">
-        <div class="icon d-flex item-center">
-          <i class="fa-solid fa-bell-slash circle-form d-flex jc-center"></i>
+      <!-- RIGHT COLUMN -->
+      <div class="col dx-col">
+
+        <!-- Top Bar -->
+        <div class="top-bar padding-s d-flex jc-between">
+
+          <!-- User Info -->
+          <div class="user-info d-flex item-center">
+            <div class="col user-img">
+              <img class="circle-form" :src="contacts[activeChat].avatar" alt="User 1">
+            </div>
+            <div class="col user-name">
+              <h2>{{ contacts[activeChat].name }}</h2>
+              <p class="msg-preview">{{ lastMsg(activeChat) }}</p>
+            </div>
+          </div>
+          <!-- /User Info -->
+
+          <!-- Icon's Tool -->
+          <div class="menu-icons d-flex item-center">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-paperclip"></i>
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </div>
+          <!-- /Icon's Tool -->
         </div>
+        <!-- /Top Bar -->
 
-        <div class="notification-status">
-          <h3>Ricevi notifiche di nuovi messaggi</h3>
-          <a href="#">Attiva notifiche desktop</a>
-        </div>
-      </div>
-      <!-- /NOTIFICATIONS -->
-
-      <!-- SEARCH BAR -->
-      <div class="search-bar padding-xs d-flex item-center">
-        <div class="icon d-flex jc-center item-center">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <input v-model="contactSrc" type="search" placeholder="Cerca o inizia una nuova chat">
-      </div>
-      <!-- /SEARCH BAR -->
-
-      <!-- CONTACT LIST -->
-      <div class="contact-list">
-        <div class="latest-msg d-flex f-column">
+        <div class="msg-box d-flex f-column">
 
           <div
-            v-for="(contact, index) in contactFiltered"
-            @click="activeChat = index"
-            class="row padding-s d-flex item-center jc-between">
-            <div class="user-info d-flex item-center">
-              <div class="col user-img">
-                <img class="circle-form" :src="contact.avatar" :alt="contact.name">
+            v-if="contacts[activeChat].messages.length > 0"
+            v-for="(msg, index) in contacts[activeChat].messages"
+            :class="{'send' : msg.status === 'sent'}"
+            class="msg-balloon padding-xs d-flex">
+            <div class="triangle"></div>
+            <p>{{ msg.message }}</p>
+            <div class="msg-infos d-flex f-column jc-between">
+              <div
+                @click="showMenu(index)"
+                class="msg-menu">
+                <i class="fa-solid fa-chevron-down"></i>
+                <ul class="dropdown-menu d-none">
+                  <li>Info messaggio</li>
+                  <li
+                    @click.stop="deleteMsg(index); showMenu(index)">Cancella messaggio
+                  </li>
+                  <li>Rispondi</li>
+                  <li>Rispondi in privato</li>
+                  <li>Reagisci</li>
+                  <li>Inoltra</li>
+                  <li>Segnala</li>
+                </ul>
               </div>
-              <div class="col user-name">
-                <h2>{{ contact.name }}</h2>
-                <p class="msg-preview">{{ lastMsg(index) }}</p>
-              </div>
-            </div>
-            <div class="col msg-hour">
-              <p>16:15</p>
+              <p class="sending-time">{{ msg.date }}</p>
             </div>
           </div>
-
+          <h2 v-else>Non ci sono messaggi</h2>
         </div>
-      </div>
-      <!-- /CONTACT LIST -->
 
-    </div>
-    <!-- /LEFT COLUMN -->
+        <!-- Text Bar -->
+        <div class="txt-bar d-flex item-center padding-xs">
 
-    <!-- RIGHT COLUMN -->
-    <div class="col dx-col">
-
-      <!-- Top Bar -->
-      <div class="top-bar padding-s d-flex jc-between">
-
-        <!-- User Info -->
-        <div class="user-info d-flex item-center">
-          <div class="col user-img">
-            <img class="circle-form" :src="contacts[activeChat].avatar" alt="User 1">
+          <div class="emoji d-flex jc-center">
+            <i class="fa-regular fa-face-smile"></i>
           </div>
-          <div class="col user-name">
-            <h2>{{ contacts[activeChat].name }}</h2>
-            <p class="msg-preview">{{ lastMsg(activeChat) }}</p>
+
+          <input
+            v-model="newText"
+            @keyup.enter="sendMsg(newText, activeChat)"
+            type="text"
+            placeholder="Scrivi un messaggio">
+
+          <div class="voice d-flex jc-center">
+            <i class="fa-solid fa-microphone"></i>
           </div>
         </div>
-        <!-- /User Info -->
-
-        <!-- Icon's Tool -->
-        <div class="menu-icons d-flex item-center">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <i class="fa-solid fa-paperclip"></i>
-          <i class="fa-solid fa-ellipsis-vertical"></i>
-        </div>
-        <!-- /Icon's Tool -->
+        <!-- /Text Bar -->
       </div>
-      <!-- /Top Bar -->
-
-      <div class="msg-box d-flex f-column">
-
-        <div
-          v-if="contacts[activeChat].messages.length > 0"
-          v-for="(msg, index) in contacts[activeChat].messages"
-          :class="{'send' : msg.status === 'sent'}"
-          class="msg-balloon padding-xs d-flex">
-          <div class="triangle"></div>
-          <p>{{ msg.message }}</p>
-          <div class="msg-infos d-flex f-column jc-between">
-            <div
-              @click="showMenu(index)"
-              class="msg-menu">
-              <i class="fa-solid fa-chevron-down"></i>
-              <ul class="dropdown-menu d-none">
-                <li>Info messaggio</li>
-                <li
-                  @click.stop="deleteMsg(index); showMenu(index)">Cancella messaggio
-                </li>
-                <li>Rispondi</li>
-                <li>Rispondi in privato</li>
-                <li>Reagisci</li>
-                <li>Inoltra</li>
-                <li>Segnala</li>
-              </ul>
-            </div>
-            <p class="sending-time">{{ msg.date }}</p>
-          </div>
-        </div>
-        <h2 v-else>Non ci sono messaggi</h2>
-      </div>
-
-      <!-- Text Bar -->
-      <div class="txt-bar d-flex item-center padding-xs">
-
-        <div class="emoji d-flex jc-center">
-          <i class="fa-regular fa-face-smile"></i>
-        </div>
-
-        <input
-          v-model="newText"
-          @keyup.enter="sendMsg(newText, activeChat)"
-          type="text"
-          placeholder="Scrivi un messaggio">
-
-        <div class="voice d-flex jc-center">
-          <i class="fa-solid fa-microphone"></i>
-        </div>
-      </div>
-      <!-- /Text Bar -->
     </div>
   </div>
-  
+
   <script type="module" src="js/script.js"></script>
 
 </body>
