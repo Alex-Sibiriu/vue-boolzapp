@@ -1,4 +1,5 @@
 import { contacts } from "./contacts.js";
+import { emojiArray } from "./emoji.js";
 
 const { createApp } = Vue;
 const { DateTime } = luxon;
@@ -12,6 +13,9 @@ createApp({
       newText: '',
       contactSrc: '',
       newDate: '',
+
+      emojiArray,
+      isShowEmoji: false,
     }
   },
 
@@ -67,6 +71,16 @@ createApp({
       this.newDate = DateTime.now().setLocale('it');
 
       return this.newDate.toFormat(dateStr)
+    },
+
+    // Funzione per inserire le emoji nel testo
+    showEmoji(emoji) {
+      this.newText += this.convertUnicodeToEmoji(emoji.code) 
+    },
+
+    // Funzione per convertire il codice dell'emoji in un unicode leggibile in html
+    convertUnicodeToEmoji(unicode) {
+      return String.fromCodePoint(parseInt(unicode.replace('&#x', ''), 16));
     },
   },
   

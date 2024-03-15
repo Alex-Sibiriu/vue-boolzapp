@@ -170,13 +170,26 @@
         <!-- Text Bar -->
         <div class="txt-bar d-flex item-center padding-xs">
 
-          <div class="emoji d-flex jc-center">
-            <i class="fa-regular fa-face-smile"></i>
+          <div class="emoji-section d-flex jc-center">
+            <i @click="this.isShowEmoji = !this.isShowEmoji" class="fa-regular fa-face-smile"></i>
+            <div class="emoji-wrapper" :class="{ 'd-none' : !isShowEmoji }">
+              <div
+              class="emoji-container d-flex f-wrap padding-xs"
+              @mouseleave="this.isShowEmoji = !this.isShowEmoji">
+                <div v-for="(emoji, index) in emojiArray" class="single-emoji">
+                  <div
+                    v-html="emoji.code"
+                    @click="showEmoji(emoji)"
+                    class="padding-xs"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <input
             v-model="newText"
             @keyup.enter="sendMsg(newText, activeChat)"
+            class="input-message"
             type="text"
             placeholder="Scrivi un messaggio">
 
