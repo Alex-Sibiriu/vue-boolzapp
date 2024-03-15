@@ -298,6 +298,10 @@ input {
   padding: 50px 11%;
 }
 
+.msg-box .empty-chat {
+  text-align: center;
+}
+
 .msg-box .msg-balloon {
   max-width: 60%;
   margin-bottom: 10px;

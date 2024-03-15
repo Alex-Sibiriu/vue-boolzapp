@@ -87,7 +87,7 @@
                 </div>
                 <div class="col user-name">
                   <h2>{{ contact.name }}</h2>
-                  <p class="msg-preview">{{ lastMsg(index, 'message') }}</p>
+                  <p class="msg-preview">{{ lastMsg(index) }}</p>
                 </div>
               </div>
               <div class="col msg-hour">
@@ -115,7 +115,7 @@
             </div>
             <div class="col user-name">
               <h2>{{ contacts[activeChat].name }}</h2>
-              <p class="msg-preview">Ultimo accesso: {{ accessDate[activeChat] }}</p>
+              <p class="msg-preview">{{ accessDate[activeChat] }}</p>
             </div>
           </div>
           <!-- /User Info -->
@@ -164,7 +164,7 @@
               <p class="sending-time">{{ msg.date }}</p>
             </div>
           </div>
-          <h2 v-else>Non ci sono messaggi</h2>
+          <h2 v-else class="empty-chat">Non ci sono messaggi</h2>
         </div>
 
         <!-- Text Bar -->
