@@ -9,6 +9,9 @@
   <!-- VUE -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+  <!-- LUXON -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.4/luxon.min.js' integrity='sha512-dUlSLLkxslGILhPdCkALwk4szPhp3xmZIKFtlUD+O9Lslq41Aksmdt5OGqpomDoT4FsCUH70jQU8ezZHI3v1RQ==' crossorigin='anonymous'></script>
+
   <!-- LINK FONT AWESOME -->
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' integrity='sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==' crossorigin='anonymous'/>
 
@@ -24,9 +27,9 @@
 
 <body>
 
-  <div class="main-wrapper">
-  
-    <div id="app" class="container d-flex">
+  <div id="app" class="main-wrapper" :class="{'dark' : isDark}">
+
+    <div class="container d-flex">
 
       <!-- LEFT COLUMN -->
       <div class="col l-col">
@@ -75,7 +78,8 @@
             <div
               v-for="(contact, index) in contactFiltered"
               v-show="contact.visible"
-              @click="activeChat = index; console.log(contact)"
+              :class="{'active' : activeChat === index}"
+              @click="activeChat = index"
               class="row padding-s d-flex item-center jc-between">
               <div class="user-info d-flex item-center">
                 <div class="col user-img">
@@ -83,11 +87,11 @@
                 </div>
                 <div class="col user-name">
                   <h2>{{ contact.name }}</h2>
-                  <p class="msg-preview">{{ lastMsg(index) }}</p>
+                  <p class="msg-preview">{{ lastMsg(index, 'message') }}</p>
                 </div>
               </div>
               <div class="col msg-hour">
-                <p>16:15</p>
+                <p class="last-hour">{{ minAccessDate[index] }}</p>
               </div>
             </div>
 
@@ -111,7 +115,7 @@
             </div>
             <div class="col user-name">
               <h2>{{ contacts[activeChat].name }}</h2>
-              <p class="msg-preview">{{ lastMsg(activeChat) }}</p>
+              <p class="msg-preview">Ultimo accesso: {{ accessDate[activeChat] }}</p>
             </div>
           </div>
           <!-- /User Info -->
@@ -121,6 +125,9 @@
             <i class="fa-solid fa-magnifying-glass"></i>
             <i class="fa-solid fa-paperclip"></i>
             <i class="fa-solid fa-ellipsis-vertical"></i>
+            <div class="darkmode-toggle">
+              <div class="toggle-button"></div>
+            </div>
           </div>
           <!-- /Icon's Tool -->
         </div>
@@ -131,7 +138,7 @@
           <div
             v-if="contacts[activeChat].messages.length > 0"
             v-for="(msg, index) in contacts[activeChat].messages"
-            :class="{'send' : msg.status === 'sent'}"
+            :class="msg.status"
             class="msg-balloon padding-xs d-flex">
             <div class="triangle"></div>
             <p>{{ msg.message }}</p>
@@ -140,10 +147,12 @@
                 @click="showMenu(index)"
                 class="msg-menu">
                 <i class="fa-solid fa-chevron-down"></i>
-                <ul class="dropdown-menu d-none">
+                <ul
+                  @mouseleave="showMenu(index)"
+                  class="dropdown-menu d-none">
                   <li>Info messaggio</li>
                   <li
-                    @click.stop="deleteMsg(index); showMenu(index)">Cancella messaggio
+                    @click.stop="deleteMsg(index)">Cancella messaggio
                   </li>
                   <li>Rispondi</li>
                   <li>Rispondi in privato</li>

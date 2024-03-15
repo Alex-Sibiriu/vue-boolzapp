@@ -8,6 +8,8 @@
   --icons-top-bar: #B1B1B1;
   --icons-write-bar: #6B7376;
   --last-access: #7A8184;
+  --dark-mode-toggle: #888;
+  --dark-mode-btn: #00c1ad;
   --body-bg: linear-gradient(to bottom, #009688 0%,#009688 15%, #DADBD4 15%, #DADBD4 85%);
   --bg-chat: url('../../img/mine.jpg');
   --top-bar-h: 70px;
@@ -26,6 +28,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color .5s, color .03s, opacity .5s, background-image .5s;
 }
 
 /*******************************************
@@ -82,25 +85,8 @@
   cursor: pointer;
 }
 
-/*******************************************
-  GENERAL
-*******************************************/
-body {
-  font-family: "Lato", sans-serif;
-  /* height: 100vh;
-  padding: 2.5vh 0;
-  background: var(--body-bg);
-  color: var(--generic-txt-color); */
-}
-
-.main-wrapper {
-  height: 100vh;
-  padding: 2.5vh 0;
-  background: var(--body-bg);
-  color: var(--generic-txt-color);
-}
-
-.main-wrapper.dark {
+/* DARK MODE */
+.dark {
   --bg-send-msg: #6f9b75;
   --bg-top-bar: #868686;
   --bg-notifications: #2f7a9d;
@@ -110,14 +96,53 @@ body {
   --icons-top-bar: #575555;
   --icons-write-bar: #2c3031;
   --last-access: #a1b3bc;
+  --dark-mode-toggle: #444;
+  --dark-mode-btn: #008578;
   --body-bg: linear-gradient(to bottom, #00645a 0%,#00645a 15%, #292927 15%, #292927 85%);
-  --bg-chat: url('../../img/dark-theme.jpg') ;
+  --bg-chat: url('../../img/dark-theme.jpg');
   --primary-color: grey;
   --generic-txt-color: white;
   --row-hover-color:rgb(105, 71, 71);
   --border-color: rgb(30, 30, 30);
   --msg-bg-color: rgb(49, 49, 49);
 }
+
+.darkmode-toggle {
+  width: 50px;
+  height: 25px;
+  background-color: var(--dark-mode-toggle);
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.toggle-button {
+  width: 20px;
+  height: 20px;
+  background-color: var(--dark-mode-btn);
+  border-radius: 50%;
+  margin: 2.5px;
+  transition: transform .3s;
+}
+
+.dark .toggle-button {
+  transform: translateX(25px);
+}
+
+/*******************************************
+  GENERAL
+*******************************************/
+body {
+  font-family: "Lato", sans-serif;
+}
+
+
+.main-wrapper {
+  height: 100vh;
+  padding: 2.5vh 0;
+  background: var(--body-bg);
+  color: var(--generic-txt-color);
+}
+
 
 img {
   max-width: 100%;
@@ -239,6 +264,10 @@ input {
   background-color: var(--row-hover-color);
 }
 
+.contact-list .latest-msg .row.active {
+  background-color: var(--row-hover-color);
+}
+
 .contact-list .latest-msg .row .user-name,
 .dx-col .user-name {
   margin-left: 15px;
@@ -284,13 +313,13 @@ input {
   border-right: 10px solid transparent;
 }
 
-.msg-balloon:not(.send) .triangle {
+.msg-balloon:not(.sent) .triangle {
   border-top: 10px solid var(--msg-bg-color);
   top: 0;
   left: -10px;
 }
 
-.msg-balloon.send .triangle {
+.msg-balloon.sent .triangle {
   border-top: 10px solid var(--bg-send-msg);
   top: 0px;
   right: -10px;
@@ -300,7 +329,7 @@ input {
   padding-bottom: 30px;
 }
 
-.msg-balloon.send {
+.msg-balloon.sent {
   background-color: var(--bg-send-msg);
   align-self: flex-end;
 }
@@ -314,10 +343,9 @@ input {
 .msg-balloon .msg-infos i {
   opacity: 0;
   font-size:  .7rem;
-  transition: all .3s;
 }
 
-.msg-balloon .msg-infos i:hover {
+.msg-balloon:hover .msg-infos i {
   opacity: 1;
 }
 
