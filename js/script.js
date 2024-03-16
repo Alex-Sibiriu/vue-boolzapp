@@ -13,6 +13,18 @@ createApp({
       newText: '',
       contactSrc: '',
       newDate: '',
+      randomReply: [
+                    'Come va oggi?',
+                    'Che cosa stai facendo di bello?',
+                    'Hai piani per stasera?',
+                    'Hai visto l\'ultimo episodio di quella serie?',
+                    'Che ne dici di organizzare qualcosa questo weekend?',
+                    'Mi racconti cosa è successo di interessante?',
+                    'Hai qualche suggerimento su cosa fare questo pomeriggio?',
+                    'Ti va di fare una passeggiata insieme?',
+                    'Mi mancano le nostre chiacchierate, dobbiamo vederci presto!',
+                    'Sei libero per una chiacchierata telefonica più tardi?'
+                  ],
 
       emojiArray,
       isShowEmoji: false,
@@ -33,31 +45,44 @@ createApp({
 
     // Funzione per inviare un messaggio
     sendMsg(text, index) {
-      const newMsg = {
-        date: this.createDate('dd/LL/yyyy HH:mm:ss'),
-        message: text,
-        status: 'sent'
-      }
-
-      this.contacts[index].messages.push(newMsg);
-      this.newText = '';
-      
-      // Risposta automatica al messaggio
-      setTimeout(() => {
-        const replyMsg = {
+      if (text.length > 0) {
+        const newMsg = {
           date: this.createDate('dd/LL/yyyy HH:mm:ss'),
-          message: 'Ok!',
-          status: 'received'
+          message: text,
+          status: 'sent'
         }
 
-        this.contacts[index].messages.push(replyMsg);
-      }, 1000);
+        this.contacts[index].messages.push(newMsg);
+        this.scrollChatToBottom();
+        this.newText = '';
+      
+        // Risposta automatica al messaggio
+        setTimeout(() => {
+          const randomN = Math.floor(Math.random() * this.randomReply.length)
+          console.log(randomN);
+
+          const replyMsg = {
+            date: this.createDate('dd/LL/yyyy HH:mm:ss'),
+            message: this.randomReply[randomN],
+            status: 'received'
+          }
+          
+          this.contacts[index].messages.push(replyMsg);
+          this.scrollChatToBottom()
+        }, 1000);
+      }
     },
 
     // Funzione per aprire/chiudere il menu a tendina
     showMenu(index) {
       const allMenus = document.querySelectorAll('.dropdown-menu');
 
+      allMenus.forEach(element => {
+        if (element !== allMenus[index]) {
+          element.classList.add('d-none')
+        }
+      });
+      
       allMenus[index].classList.toggle('d-none')
     },
 
@@ -82,6 +107,22 @@ createApp({
     convertUnicodeToEmoji(unicode) {
       return String.fromCodePoint(parseInt(unicode.replace('&#x', ''), 16));
     },
+
+    // Funzione di autoscroll
+    scrollChatToBottom() {
+      const chatBox = document.querySelector('.msg-box')
+      chatBox.scrollTop = chatBox.scrollHeight;
+    },
+
+    // Funzione per modificare un messaggio
+    editMsg(index) {
+      const editedMsg = prompt("Modifica il messaggio:", this.contacts[this.activeChat].messages[index].message);
+    
+      if (editedMsg !== '') {
+        this.contacts[this.activeChat].messages[index].message = editedMsg;
+        this.contacts[this.activeChat].messages[index].date = 'Modificato il ' + this.createDate('dd/LL/yyyy HH:mm:ss')
+      }
+    }
   },
   
   computed: {

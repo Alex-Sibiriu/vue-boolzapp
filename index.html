@@ -154,9 +154,9 @@
                   <li
                     @click.stop="deleteMsg(index)">Cancella messaggio
                   </li>
-                  <li>Rispondi</li>
-                  <li>Rispondi in privato</li>
-                  <li>Reagisci</li>
+                  <li v-if="msg.status === 'received'">Rispondi</li>
+                  <li v-if="msg.status === 'received'">Rispondi in privato</li>
+                  <li v-if="msg.status === 'sent'" @click="showMenu(index); editMsg(index)">Modifica</li>
                   <li>Inoltra</li>
                   <li>Segnala</li>
                 </ul>

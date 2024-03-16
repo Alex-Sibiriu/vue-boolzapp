@@ -18,9 +18,13 @@
 
   --generic-txt-color: black;
   --primary-color: white;
-  --row-hover-color:whitesmoke;
+  --row-hover-color:rgb(239, 236, 236);
+  --row-active-color:rgb(224, 221, 221);
   --border-color: lightgray;
   --msg-bg-color: white;
+  --emoji-box-clr: rgb(242, 241, 241);
+  --emoji-box-blur: white;
+  --emoji-triangle-clr: #fbfbfb;
 }
 
 /* CSS RESET */
@@ -28,7 +32,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: background-color .5s, color .03s, opacity .5s, background-image .5s;
+  transition: background-color .5s, 
+              color .03s,
+              opacity .5s,
+              background-image .5s,
+              border-top .5s,
+              border-left .5s,
+              box-shadow .5s;
 }
 
 /*******************************************
@@ -102,9 +112,12 @@
   --bg-chat: url('../../img/dark-theme.jpg');
   --primary-color: grey;
   --generic-txt-color: white;
-  --row-hover-color:rgb(105, 71, 71);
-  --border-color: rgb(30, 30, 30);
+  --row-hover-color:rgb(75, 73, 73);
+  --row-active-color:rgb(32, 32, 32);
   --msg-bg-color: rgb(49, 49, 49);
+  --emoji-box-clr: rgb(185, 183, 183);
+  --emoji-box-blur: black;
+  --emoji-triangle-clr: #454444;
 }
 
 .darkmode-toggle {
@@ -251,13 +264,14 @@ input {
 .l-col .contact-list {
   height: calc(100% - var(--top-bar-h) - var(--notifications-h) - var(--search-bar-h));
   overflow-y: scroll;
+  border-top: 1px solid var(--border-color);
 }
 
 .contact-list .latest-msg .row {
   height: 80px;
   background-color: var(--primary-color);
   cursor: pointer;
-  border: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .contact-list .latest-msg .row:hover {
@@ -265,7 +279,7 @@ input {
 }
 
 .contact-list .latest-msg .row.active {
-  background-color: var(--row-hover-color);
+  background-color: var(--row-active-color);
 }
 
 .contact-list .latest-msg .row .user-name,
@@ -277,6 +291,11 @@ input {
 
 .contact-list .latest-msg .user-name .msg-preview {
   color: var(--txt-prev-msg);
+}
+
+.contact-list .latest-msg .row.active .msg-preview,
+.contact-list .latest-msg .row.active .msg-hour {
+  color: white;
 }
 
 .contact-list .latest-msg .msg-hour {
@@ -416,7 +435,8 @@ input {
   overflow-y: scroll;
   scrollbar-width: none;
   border-radius: 10px;
-  background-color: rgb(185, 183, 183);
+  background-color: var(--emoji-box-clr);
+  box-shadow: 0 0 50px inset var(--emoji-box-blur);
 }
 
 .emoji-wrapper {
@@ -425,7 +445,7 @@ input {
 
 .emoji-wrapper:after {
   content: '';
-  border-left: 10px solid rgb(185, 183, 183);
+  border-left: 15px solid var(--emoji-triangle-clr);
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   position: absolute;
