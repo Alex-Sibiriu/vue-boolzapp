@@ -115,7 +115,7 @@
             </div>
             <div class="col user-name">
               <h2>{{ contacts[activeChat].name }}</h2>
-              <p class="msg-preview">{{ accessDate[activeChat] }}</p>
+              <p class="msg-preview">{{ accessDate }}</p>
             </div>
           </div>
           <!-- /User Info -->
@@ -141,7 +141,12 @@
             :class="msg.status"
             class="msg-balloon padding-xs d-flex">
             <div class="triangle"></div>
-            <p>{{ msg.message }}</p>
+            <input
+              v-model="editedText"
+              @keyup.enter="editeMsg2(index)"
+              class="input-msg d-none"
+              type="text">
+            <p class="text-msg">{{ msg.message }}</p>
             <div class="msg-infos d-flex f-column jc-between">
               <div
                 @click="showMenu(index)"
@@ -156,7 +161,7 @@
                   </li>
                   <li v-if="msg.status === 'received'">Rispondi</li>
                   <li v-if="msg.status === 'received'">Rispondi in privato</li>
-                  <li v-if="msg.status === 'sent'" @click="showMenu(index); editMsg(index)">Modifica</li>
+                  <li v-if="msg.status === 'sent'" @click="showMenu(index); showEditor(index)">Modifica</li>
                   <li>Inoltra</li>
                   <li>Segnala</li>
                 </ul>

@@ -11,6 +11,7 @@ createApp({
       contacts,
       activeChat: 0,
       newText: '',
+      editedText: '',
       contactSrc: '',
       newDate: '',
       randomReply: [
@@ -114,15 +115,36 @@ createApp({
       chatBox.scrollTop = chatBox.scrollHeight;
     },
 
+    // Funzione per mostrare l'input di modifica messaggio
+    showEditor(index) {
+      const allInputMsg = document.querySelectorAll('.input-msg');
+      const allTxtMsg = document.querySelectorAll('.text-msg');
+
+      allInputMsg.forEach(element => {
+        if (element !== allInputMsg[index]) {
+          element.classList.add('d-none')
+        }
+      })
+
+      allInputMsg[index].classList.toggle('d-none');
+      allTxtMsg[index].classList.toggle('d-none');
+
+      this.editedText = this.contacts[this.activeChat].messages[index].message;
+    },
+
     // Funzione per modificare un messaggio
-    editMsg(index) {
-      const editedMsg = prompt("Modifica il messaggio:", this.contacts[this.activeChat].messages[index].message);
-    
-      if (editedMsg !== '') {
-        this.contacts[this.activeChat].messages[index].message = editedMsg;
-        this.contacts[this.activeChat].messages[index].date = 'Modificato il ' + this.createDate('dd/LL/yyyy HH:mm:ss')
+    editeMsg2(index) {
+      const allInputMsg = document.querySelectorAll('.input-msg');
+      const allTxtMsg = document.querySelectorAll('.text-msg');
+      
+      if (this.editedText !== '') {
+        this.contacts[this.activeChat].messages[index].message = this.editedText;
+        this.contacts[this.activeChat].messages[index].date = 'Modificato il ' + this.createDate('dd/LL/yyyy HH:mm:ss');
+
+        allInputMsg[index].classList.toggle('d-none');
+        allTxtMsg[index].classList.toggle('d-none');
       }
-    }
+    },
   },
   
   computed: {
@@ -158,16 +180,14 @@ createApp({
 
     // Funzione per mostrare la data dell'ultimo accesso del contatto attivo (data completa)
     accessDate() {
-      return this.contacts.map(contact => {
-        const filteredMessages = contact.messages.filter(message => message.status === 'received');
+      const filteredMessages = this.contacts[this.activeChat].messages.filter(message => message.status === 'received');
 
-        if (filteredMessages.length > 0) {
-          const lastReceivedMessage = filteredMessages[filteredMessages.length - 1];
-          return 'Ultimo accesso: ' + lastReceivedMessage.date
-        } else {
-          return 'Nessun accesso registrato';
-        }
-      });
+      if (filteredMessages.length > 0) {
+        const lastReceivedMessage = filteredMessages[filteredMessages.length - 1];
+        return 'Ultimo accesso: ' + lastReceivedMessage.date
+      } else {
+        return 'Nessun accesso registrato';
+      }
     },
   },
 

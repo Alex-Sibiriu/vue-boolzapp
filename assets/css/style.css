@@ -348,13 +348,27 @@ input {
   right: -10px;
 }
 
-.msg-box .msg-balloon > p {
+.msg-box .msg-balloon > p,
+.msg-box .msg-balloon input {
   padding-bottom: 30px;
 }
 
 .msg-balloon.sent {
   background-color: var(--bg-send-msg);
   align-self: flex-end;
+}
+
+.msg-balloon.sent input {
+  background-color: var(--bg-send-msg);
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: var(--generic-txt-color);
+  width: 100%;
+}
+
+.msg-balloon.sent input:focus {
+  outline: none;
 }
 
 .msg-balloon .msg-infos {
