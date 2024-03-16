@@ -37,7 +37,6 @@
               opacity .5s,
               background-image .5s,
               border-top .5s,
-              border-left .5s,
               box-shadow .5s;
 }
 
@@ -465,6 +464,7 @@ input {
   position: absolute;
   bottom: 15px;
   left: 0;
+  transition: all .5s
 }
 
 .single-emoji {
