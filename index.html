@@ -79,7 +79,7 @@
               v-for="(contact, index) in contactFiltered"
               v-show="contact.visible"
               :class="{'active' : activeChat === index}"
-              @click="activeChat = index"
+              @click="setActiveChat(index)"
               class="row padding-s d-flex item-center jc-between">
               <div class="user-info d-flex item-center">
                 <div class="col user-img">
@@ -133,6 +133,7 @@
         </div>
         <!-- /Top Bar -->
 
+        <!-- Chat -->
         <div class="msg-box d-flex f-column">
 
           <div
@@ -143,7 +144,7 @@
             <div class="triangle"></div>
             <input
               v-model="editedText"
-              @keyup.enter="editeMsg2(index)"
+              @keyup.enter="editeMsg(index)"
               class="input-msg d-none"
               type="text">
             <p class="text-msg">{{ msg.message }}</p>
@@ -161,16 +162,54 @@
                   </li>
                   <li v-if="msg.status === 'received'">Rispondi</li>
                   <li v-if="msg.status === 'received'">Rispondi in privato</li>
-                  <li v-if="msg.status === 'sent'" @click="showMenu(index); showEditor(index)">Modifica</li>
+                  <li
+                    v-if="msg.status === 'sent'"
+                    @click="showMenu(index); showEditor(index)">Modifica</li>
+                  <li
+                    v-if="msg.status === 'received'"
+                    @click.stop="showReaction(index)">Reagisci</li>
                   <li>Inoltra</li>
                   <li>Segnala</li>
                 </ul>
               </div>
               <p class="sending-time">{{ msg.date }}</p>
             </div>
+
+              <!-- Reactions -->
+              <div 
+                v-show="msg.status === 'received'"
+                :class="{'show-all' : isAllReactions}"
+                @mouseleave="showReaction(index)"
+                class="reactions-box d-none">
+
+                <div class="default-reactions d-flex f-wrap">
+                  
+                  <div v-for="(emoji) in emojiArray" class="single-emoji">
+                    <div
+                    v-html="emoji.code"
+                    @click.stop="insertReaction(emoji, index); isAllReactions = false"
+                    class="padding-xs"></div>
+                  </div>
+
+                  <div class="all-reactions padding-xs"
+                  @click.stop="showAllReactions(index)"
+                  :class="{'d-none' : isAllReactions}">
+                    <i class="fa-solid fa-circle-plus"></i>
+                  </div>
+                
+                </div>
+              
+              </div>
+            <!-- /Reactions -->
+            
+            <div class="active-reactions d-flex">
+              <span v-for="emoji in msg.reactions">{{ emoji }}</span>
+            </div>
           </div>
           <h2 v-else class="empty-chat">Non ci sono messaggi</h2>
+          
         </div>
+        <!-- /Chat -->
 
         <!-- Text Bar -->
         <div class="txt-bar d-flex item-center padding-xs">

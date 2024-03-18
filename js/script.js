@@ -29,9 +29,13 @@ createApp({
 
       emojiArray,
       isShowEmoji: false,
+      isAllReactions: false,
     }
   },
 
+  /************
+    METHODS
+  *************/
   methods: {
     // Funzione per identificare l'ultimo messaggio
     lastMsg(index) {
@@ -126,6 +130,12 @@ createApp({
         }
       })
 
+      allTxtMsg.forEach(element => {
+        if (element !== allTxtMsg[index]) {
+          element.classList.remove('d-none')
+        }
+      })
+
       allInputMsg[index].classList.toggle('d-none');
       allTxtMsg[index].classList.toggle('d-none');
 
@@ -133,7 +143,7 @@ createApp({
     },
 
     // Funzione per modificare un messaggio
-    editeMsg2(index) {
+    editeMsg(index) {
       const allInputMsg = document.querySelectorAll('.input-msg');
       const allTxtMsg = document.querySelectorAll('.text-msg');
       
@@ -145,8 +155,78 @@ createApp({
         allTxtMsg[index].classList.toggle('d-none');
       }
     },
+
+    // Funzione per aprire il menu delle reactions
+    showReaction(index) {
+      const allReactionBox = document.querySelectorAll('.reactions-box');
+      const allPlusReactions = document.querySelectorAll('.all-reactions');
+
+      allReactionBox.forEach(element => {
+        if (element !== allReactionBox[index]) {
+          element.classList.add('d-none')
+        }
+      })
+      
+      allReactionBox[index].scrollTop = 0;
+      allReactionBox[index].classList.toggle('d-none');
+      allReactionBox[index].classList.remove('show-all');
+      allPlusReactions[index].classList.remove('d-none')
+    },
+
+    // Funzione per mostrare tutte le ractions disponibili
+    showAllReactions(index) {
+      const allReactionBox = document.querySelectorAll('.reactions-box');
+      const allPlusReactions = document.querySelectorAll('.all-reactions')
+
+      allReactionBox.forEach(element => {
+        if (element === allReactionBox[index]) {
+          element.classList.add('show-all')
+        }
+      })
+
+      allPlusReactions.forEach(element => {
+        if (element === allPlusReactions[index]) {
+          element.classList.add('d-none')
+        }
+      })
+    },
+
+    // Funzione per inserire le reactions
+    insertReaction(emoji, index) {
+      const activeMessage = this.contacts[this.activeChat].messages[index];
+      
+      if (!activeMessage.reactions) {
+        activeMessage.reactions = [];
+      }
+      
+      activeMessage.reactions.push(this.convertUnicodeToEmoji(emoji.code));
+      console.log(activeMessage.reactions);
+    },
+
+    // Funzione per cambiare chat attiva
+    setActiveChat(index) {
+      this.closeAllReactions();
+      this.activeChat = index;
+    },
+
+    // Funzione per chiudere tutte le finestre reactions
+    closeAllReactions() {
+      const allReactionBoxes = document.querySelectorAll('.reactions-box');
+      const allPlusReactions = document.querySelectorAll('.all-reactions');
+
+      allReactionBoxes.forEach((box, index) => {
+        box.classList.add('d-none');
+        box.classList.remove('show-all');
+        allPlusReactions[index].classList.remove('d-none');
+      });
+
+      this.isAllReactions = false;
+    },
   },
   
+  /************
+   COMPUTED
+   *************/
   computed: {
     // Funzione per filtrare i contatti da mostrare
     contactFiltered() {
@@ -165,7 +245,7 @@ createApp({
     minAccessDate() {
       return this.contacts.map(contact => {
         const filteredMessages = contact.messages.filter(message => message.status === 'received');
-
+        
         if (filteredMessages.length > 0) {
           const lastReceivedMessage = filteredMessages[filteredMessages.length - 1];
           const dateParts = lastReceivedMessage.date.split(' ');
@@ -177,11 +257,11 @@ createApp({
         }
       });
     },
-
+    
     // Funzione per mostrare la data dell'ultimo accesso del contatto attivo (data completa)
     accessDate() {
       const filteredMessages = this.contacts[this.activeChat].messages.filter(message => message.status === 'received');
-
+      
       if (filteredMessages.length > 0) {
         const lastReceivedMessage = filteredMessages[filteredMessages.length - 1];
         return 'Ultimo accesso: ' + lastReceivedMessage.date

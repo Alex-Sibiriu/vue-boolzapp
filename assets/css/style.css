@@ -435,7 +435,10 @@ input {
 }
 
 /* EMOJI */
-.emoji-section {
+.emoji-section,
+.emoji-wrapper,
+.reactions-btn,
+.default-reactions {
   position: relative;
 }
 
@@ -450,10 +453,6 @@ input {
   border-radius: 10px;
   background-color: var(--emoji-box-clr);
   box-shadow: 0 0 50px inset var(--emoji-box-blur);
-}
-
-.emoji-wrapper {
-  position: relative;
 }
 
 .emoji-wrapper:after {
@@ -474,6 +473,40 @@ input {
 
 .single-emoji:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* REACTIONS */
+.reactions-box {
+  width: 272px;
+  height: 41px;
+  border-radius: 10px;
+  background-color: lightgray;
+  overflow: hidden;
+  position: absolute;
+  right: -280px;
+  top: 0;
+  z-index: 999;
+}
+
+.show-all {
+  height: 400px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.all-reactions {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  background-color: whitesmoke;
+}
+
+.active-reactions {
+  height: 22px;
+  position: absolute;
+  bottom: -12px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 /*******************************************
