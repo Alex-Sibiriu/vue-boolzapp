@@ -198,7 +198,7 @@ createApp({
       if (!activeMessage.reactions) {
         activeMessage.reactions = [];
       }
-      
+
       if (activeMessage.reactions.length > 0) {
         return
       }
@@ -235,6 +235,11 @@ createApp({
 
       this.isAllReactions = false;
     },
+
+    // Dark Mode
+    darkMode() {
+      document.querySelector('body').classList.toggle('dark')
+    }
   },
   
   /************
@@ -285,10 +290,3 @@ createApp({
   },
 
 }).mount('#app')
-
-// DARK MODE
-const colorBtn = document.querySelector('.darkmode-toggle');
-
-colorBtn.addEventListener('click', () => {
-  document.querySelector('body').classList.toggle('dark')
-})
