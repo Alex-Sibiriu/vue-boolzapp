@@ -202,8 +202,8 @@
               </div>
             <!-- /Reactions -->
             
-            <div class="active-reactions d-flex">
-              <span v-for="emoji in msg.reactions">{{ emoji }}</span>
+            <div class="active-reactions">
+              <span v-for="emoji in msg.reactions" @click="deleteReactions(index)">{{ emoji }}</span>
             </div>
           </div>
           <h2 v-else class="empty-chat">Non ci sono messaggi</h2>

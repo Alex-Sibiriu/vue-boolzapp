@@ -502,11 +502,9 @@ input {
 }
 
 .active-reactions {
-  height: 22px;
   position: absolute;
   bottom: -12px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  cursor: pointer;
 }
 
 /*******************************************

@@ -199,8 +199,21 @@ createApp({
         activeMessage.reactions = [];
       }
       
+      if (activeMessage.reactions.length > 0) {
+        return
+      }
+      
       activeMessage.reactions.push(this.convertUnicodeToEmoji(emoji.code));
       console.log(activeMessage.reactions);
+    },
+
+    // Funzione per eliminare la Reactions attiva
+    deleteReactions(index) {
+      const activeMessage = this.contacts[this.activeChat].messages[index];
+
+      if (activeMessage.reactions.length > 0) {
+        activeMessage.reactions.pop();
+      }
     },
 
     // Funzione per cambiare chat attiva
